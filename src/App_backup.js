@@ -26,6 +26,25 @@ function App() {
       uploadedAt: null,
     }));
     setFiles(prevFiles => [...prevFiles, ...newFiles]);
+  }, []);tate, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import axios from 'axios';
+import './App.css';
+
+const API_GATEWAY_URL = process.env.REACT_APP_API_GATEWAY_URL;
+
+function App() {
+  const [files, setFiles] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const onDrop = useCallback(acceptedFiles => {
+    const newFiles = acceptedFiles.map(file => Object.assign(file, {
+      id: `file_${Date.now()}_${Math.random()}`,
+      status: 'queued',
+      error: null,
+      response: null,
+    }));
+    setFiles(prevFiles => [...prevFiles, ...newFiles]);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive, isDragReject } = useDropzone({
